@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiement - MaBoutiqueEcommerce{% endblock %}
+
+{% block content %}
+    <h1>Erreur de paiement</h1>
+    <p>
+        Bonjour <strong>{{ order.user.firstname|capitalize }} {{ order.user.lastname|upper }}</strong>,<br>
+        Nous vous informons que votre paiement, pour votre commande n°<strong>{{ order.reference }}</strong>, ait échoué.<br>
+        <hr>
+        Une confirmation d'erreur vient de vous être envoyée par email à l'adresse <strong>{{ order.user.email }}</strong>
+    </p>
+    <a href="{{ path('order') }}" class="btn btn-success">Réessayer le paiement</a>
+{% endblock %}

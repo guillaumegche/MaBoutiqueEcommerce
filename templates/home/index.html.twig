@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block carousel  %}{% endblock %}
+
+{% block content %}
+        <h2>Nos meilleurs produits du moment</h2>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-3">
+                    {% include 'product/single_product.html.twig' %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Une équipe de pationné <span class="text-muted">avec des professionnels au grand savoir-faire.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img src="{{ asset('uploads/homePage/first.jpg') }}" class="img-fluid" alt="couturière">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">Venez à notre rencontre <span class="text-muted">en France.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img src="{{ asset('uploads/homePage/second.jpg') }}" class="img-fluid" alt="boutique">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+        
+{% endblock %}

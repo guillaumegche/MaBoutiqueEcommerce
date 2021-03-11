@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter - MaBoutiqueEcommerce{% endblock %}
+
+{% block content %}
+    <h1>Contact</h1>
+    <p>N'hésitez pas à nous contacter. Notre équipe vous répondra dans les meilleurs délais.</p>
+    <div class="row">
+        <div class="col-md-7">
+            {{ form(form) }}
+        </div>
+        <div class="col-md-5">
+            <h2>MaBoutiqueEcommerce</h2>
+            <p>
+                06 06 06 06 06<br>
+                8 rue des joncquilles, 74 000 Annecy<br>
+                contact@maboutiqueecommerce.fr<br>
+            </p>
+        </div>
+    </div>
+{% endblock %}

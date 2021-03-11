@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma Boutique Ecommerce - 100% Français{% endblock %}
+
+{% block content %}
+    <div class="block-small">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+    
+            {% if app.user %}
+                <div class="mb-3">
+                    Bienvenue {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </div>
+            {% endif %}
+    
+            <h1 class="h3 mb-3 font-weight-normal">Merci de vous connecter</h1>
+            <label for="inputEmail">Votre email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Votre email" required autofocus>
+            <label for="inputPassword">Votre mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
+    
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    
+            <hr>
+                <button class="btn btn-lg btn-block btn-info mt-3" type="submit">
+                    Se connecter
+                </button>
+            <hr>
+            <p class="text-center"><a href="{{ path('reset_password') }}">Mot de passe oublié</a></p>
+            <p class="text-center">Ou souhaitez-vous <a href="{{ path('register') }}">créer un compte</a></p>
+        </form>
+    </div>    
+{% endblock %}
