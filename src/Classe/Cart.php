@@ -54,7 +54,7 @@ class Cart
         if($cart[$id] > 1) { /* Si la quantité du produit est supérieur à 1 */
             $cart[$id]--; /* On désincrémente */
         }else { /* Sinon (donc < 1 ) */
-            unset($cart[$id]); /* On supprimer la ligne du tableau */
+            unset($cart[$id]); /* On supprime la ligne du tableau */
         }
 
         return $this->session->set('cart', $cart); /* On retourne le nouveau panier mis à jour */

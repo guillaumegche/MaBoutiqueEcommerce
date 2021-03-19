@@ -22,15 +22,16 @@ class OrderController extends AbstractController
     }
 
     /**
+     * Affichage des données de la commande ainsi que le choix de l'adresse et du transporteur
      * @Route("/commande", name="order")
      */
     public function index(Cart $cart, Request $request): Response
     {
-        if (!$this->getUser()->getAddresses()->getValues()) {
+        if (!$this->getUser()->getAddresses()->getValues()) { /* Si pas d'adresse de créée, on redirige vers la page de création d'une adresse de livraison */
             return $this->redirectToRoute('account_address_add');
         }
 
-        $form = $this->createForm(OrderType::class, null, [
+        $form = $this->createForm(OrderType::class, null, [ /* Affichage des données de la commande (adresse de livraison et transporteur) de l'utilisateur connecté */
             'user' => $this->getUser()
         ]);
 
@@ -41,6 +42,7 @@ class OrderController extends AbstractController
     }
 
     /**
+     * Affichage des données d'une commande. Vérification visuelle avant le paiement
      * @Route("/commande/recapitulatif", name="order_recap", methods={"POST"})
      */
     public function add(Cart $cart, Request $request): Response
@@ -71,8 +73,8 @@ class OrderController extends AbstractController
 
             // Enregistrer ma commande Order()
             $order = new Order(); /* On instancie une nouvelle commande */
-            $reference = $date->format('dmY').'-'.uniqid();
-            $order->setReference($reference);
+            $reference = $date->format('dmY').'-'.uniqid(); /* Création du numéro de référence (date - numéro unique) */
+            $order->setReference($reference); /* On associe le numéro de référence à la commande */
             $order->setUser($this->getUser()); /* On lui affecte l'utilisateur courrant */
             $order->setCreatedAt($date); /* On lui affecte la date $date */
             $order->setCarrierName($carriers->getName()); /* On lui affecte le nom du transporteur */

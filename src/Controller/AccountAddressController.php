@@ -42,7 +42,7 @@ class AccountAddressController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() ) {
-            $address->setUser($this->getUser());
+            $address->setUser($this->getUser()); /* On associe l'utilisateur connecté à l'utilisateur de l'adresse */
             $this->entityManager->persist($address);
             $this->entityManager->flush();
 
@@ -68,7 +68,7 @@ class AccountAddressController extends AbstractController
         $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
 
         if(!$address || $address->getUser() != $this->getUser() ) { /* On vérifie que l'adresse existe bien ou que l'utilisateur est bien le bon */
-            return $this->redirectToRoute('account_address'); /* Sinon on redirige vers l'affichage des adresses */ 
+            return $this->redirectToRoute('account_address'); /* On redirige vers l'affichage des adresses */ 
         }
 
         $form = $this->createForm(AddressType::class, $address);
@@ -77,6 +77,8 @@ class AccountAddressController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid() ) {
             $this->entityManager->flush();
+
+            $this->addFlash('success', 'Votre adresse a bie été modifiée.');
 
             return $this->redirectToRoute('account_address');
         }
@@ -97,6 +99,8 @@ class AccountAddressController extends AbstractController
         if($address && $address->getUser() == $this->getUser() ) { /* On vérifie que l'adresse existe bien et que l'utilisateur est bien le bon */
             $this->entityManager->remove($address);
             $this->entityManager->flush();
+
+            $this->addFlash('success', 'Votre adresse a bie été supprimée.');
         }        
 
         return $this->redirectToRoute('account_address');

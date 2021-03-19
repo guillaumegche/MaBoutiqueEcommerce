@@ -18,11 +18,12 @@ class AccountOrderController extends AbstractController
     }
     
     /**
+     * Affichage des commandes payées du client
      * @Route("/compte/mes-commandes", name="account_order")
      */
     public function index(): Response
     {
-        $orders = $this->entityManager->getRepository(Order::class)->findSuccessOrders($this->getUser());
+        $orders = $this->entityManager->getRepository(Order::class)->findSuccessOrders($this->getUser()); /* Requête qui récupère les commandes payées de l'utilisateur*/
 
         return $this->render('account/order.html.twig', [
             'orders' => $orders
@@ -30,13 +31,14 @@ class AccountOrderController extends AbstractController
     }
 
     /**
+     * Affichage des données d'une commande
      * @Route("/compte/mes-commandes/{reference}", name="account_order_show")
      */
     public function show($reference): Response
     {
-        $order = $this->entityManager->getRepository(Order::class)->findOneByReference($reference);
+        $order = $this->entityManager->getRepository(Order::class)->findOneByReference($reference); /* On récupère la requête par sa référence */
 
-        if(!$order || $order->getUser() != $this->getUser()) {
+        if(!$order || $order->getUser() != $this->getUser()) { /* Si pas de commande ou mauvais utilisateur, on redirige vers l'affichage des commandes */
             return $this->redirectToRoute('account_order');
         }
 

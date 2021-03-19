@@ -21,25 +21,26 @@ class RegisterController extends AbstractController
     }
     
     /**
+     * Fonction afin de créer un compte, un utilisateur
      * @Route("/inscription", name="register")
      */
     public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $user = new User();
+        $user = new User(); /* On instancie un nouvel utilisateur */
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+            $user = $form->getData(); /* On récupère les données dans le formulaire */
 
             $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail()); /* On récupère l'email de l'utilisateur en bdd */
 
-            if(!$search_email) {
+            if(!$search_email) { /* Si l'adresse email est libre, on continue */
 
-                $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+                $password = $passwordEncoder->encodePassword($user, $user->getPassword()); /* On encode le mdp de l'utilisateur connecté */
 
-                $user->setPassword($password);
+                $user->setPassword($password); /* On associe le mdp encodé à l'utilisateur */
             
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
@@ -53,7 +54,7 @@ class RegisterController extends AbstractController
                 return $this->redirectToRoute('app_login');
 
             } else {                
-                $this->addFlash('error', 'Cet email est déjà utlisé.');
+                $this->addFlash('error', 'Cet email est déjà utilisé.');
             }   
         }
 

@@ -21,20 +21,21 @@ class ProductController extends AbstractController
     }
 
     /**
+     * Affichage des produits du site
      * @Route("/nosProduits", name="products")
      */
     public function index(Request $request): Response
     {          
 
-        $search = new Search(); /* on instancie notre recherche dans la variable $search */
-        $form = $this->createForm(SearchType::class, $search); /* on crée notre formulaire à partir des données de notre recherche */
+        $search = new Search(); /* On instancie notre recherche dans la variable $search */
+        $form = $this->createForm(SearchType::class, $search); /* On crée notre formulaire à partir des données de notre recherche */
 
-        $form->handleRequest($request); /* on écoute le formulaire, on fait une pause */
+        $form->handleRequest($request); /* On écoute le formulaire, on fait une pause */
 
         if($form->isSubmitted() && $form->isValid() ) {
-            $products = $this->entityManager->getRepository(Product::class)->findWithSearch($search); /* on appelle la méthode créée dans le repository */
+            $products = $this->entityManager->getRepository(Product::class)->findWithSearch($search); /* On appelle la méthode créée dans le repository */
         }else {
-            $products = $this->entityManager->getRepository(Product::class)->findAll(); /* méthode qui récupère tous les produits */
+            $products = $this->entityManager->getRepository(Product::class)->findAll(); /* Méthode qui récupère tous les produits */
         }
 
         return $this->render('product/index.html.twig', [
@@ -44,14 +45,15 @@ class ProductController extends AbstractController
     }
 
     /**
+     * Affichage des données d'un produit
      * @Route("/produit/{slug}", name="product")
      */
     public function show($slug): Response
     {
-        $product = $this->entityManager->getRepository(Product::class)->findOneBySlug($slug); 
-        $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1);    
+        $product = $this->entityManager->getRepository(Product::class)->findOneBySlug($slug); /* On récupère le produit en question par son slug */
+        $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1); /* On récupère les meilleurs produits du moment */
 
-        if (!$product){
+        if (!$product){ /* Si le produit n'existe pas, on redirige. Sécurité afin d'éviter un message d'erreur si on rentre un produit non existant */
             return $this->redirectToRoute('products');
         }
 

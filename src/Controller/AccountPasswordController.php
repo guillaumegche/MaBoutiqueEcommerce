@@ -19,23 +19,24 @@ class AccountPasswordController extends AbstractController
     }
 
     /**
+     * Modification du mot de passe en connaissant l'ancien
      * @Route("/compte/password", name="account_password")
      */
     public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $user = $this->getUser();
+        $user = $this->getUser(); /* On récupère l'utilisateur connecté */
         $form = $this->createForm(ChangePasswordType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $old_pwd = $form->get('old_password')->getData();
+            $old_pwd = $form->get('old_password')->getData(); /* On récupère l'ancien mot de passe dans le formulaire */
 
-            if($passwordEncoder->isPasswordValid($user, $old_pwd)){
-                $new_pwd = $form->get('new_password')->getData();
-                $password = $passwordEncoder->encodePassword($user, $new_pwd);
+            if($passwordEncoder->isPasswordValid($user, $old_pwd)){ /* Si l'ancien mot de passe est bon */
+                $new_pwd = $form->get('new_password')->getData(); /* On récupère le nouveau mot de passe dans le formulaire */
+                $password = $passwordEncoder->encodePassword($user, $new_pwd); /* On encode le nouveau mdp */
 
-                $user->setPassword($password);
+                $user->setPassword($password); /* On associe le mdp à l'utilisateur */
                 $this->entityManager->flush();
                 $this->addFlash('success', 'Votre mot de passe a bien été modifié');
                 

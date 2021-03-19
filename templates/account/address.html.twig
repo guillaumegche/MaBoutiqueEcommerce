@@ -13,22 +13,24 @@
             Vous n'avez pas encore ajouté d'adresse dans votre compte client. Pour en ajouter une, veuillez <a href="">cliquer ici</a>
         </p>
     {% else %}
-        {% for address in app.user.addresses %}
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ address.name }}</h5>
-                        <p class="card-text">
-                            {{ address.address }}, <br>
-                            {{ address.postal }} - {{ address.city }} - {{ address.country }}
-                        </p>
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ path('account_address_edit', { 'id' : address.id }) }}" class="btn btn-primary">Modifier</a>
-                            <a href="{{ path('account_address_delete', { 'id' : address.id }) }}" class="btn btn-primary">Supprimer</a>
+        <div class="row">
+            {% for address in app.user.addresses %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ address.name }}</h5>
+                            <p class="card-text">
+                                {{ address.address }}, <br>
+                                {{ address.postal }} - {{ address.city }} - {{ address.country }}
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ path('account_address_edit', { 'id' : address.id }) }}" class="btn btn-primary">Modifier</a>
+                                <a href="{{ path('account_address_delete', { 'id' : address.id }) }}" class="btn btn-primary">Supprimer</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
