@@ -21,7 +21,7 @@ class StripeController extends AbstractController
     public function index(EntityManagerInterface $entityManager,Cart $cart, $reference): Response
     {
         $products_for_stripe = []; /* On créé un tableau vide pour stocker nos données des commandes et les récupérer pour le paiement avec Stripe */
-        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+        $YOUR_DOMAIN = 'http://127.0.0.1:8000'; // 0 changer par son nom de domaine
 
         $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
 
