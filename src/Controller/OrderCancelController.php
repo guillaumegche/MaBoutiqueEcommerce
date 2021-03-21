@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,11 @@ class OrderCancelController extends AbstractController
         if(!$order || $order->getUser() != $this->getUser()) { /* Si pas de commande ou mauvais utilisateur, on redirige vers la page d'accueil */
             return $this->redirectToRoute('home');
         }
+
+         //on envoie un mail de confirmation à notre client
+         $mail = new Mail();
+         $content ="Bonjour ".$order->getUser()->getFirstname()."<br>Vous avez tenté de payer votre commande sur MaBoutiqueEcommerce<br>";
+         $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(), 'Votre paiement a échoué, veuillez réessayer.', $content);
 
         // Envoyer un message à l'utlisateur pour l'informer de l'échec du paiement
         $this->addFlash('error', 'Votre paiement a échoué, veuillez recommencer ou vérifier auprès de votre banque.');
