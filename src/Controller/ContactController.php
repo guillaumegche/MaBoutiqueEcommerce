@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,8 @@ class ContactController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
-
             $mail = new Mail();
-            $content = 'Message de '.$form->getFirstname()->getData().' '.$form->getLastname()->getData().' :'.'<br>'.$form->getContent()->getData();
+            $content = 'Message de '.$form->get('firstname')->getData().' '.$form->get('lastname')->getData().' :'.'<br>'.$form->get('content')->getData();
             $mail->send('gaucheguillaume@gmail.com', 'gauche guillaume','Message reçu du formulaire de contact de MaBoutiqueEcommerce', $content);
 
             $this->addFlash('success', 'Votre message a bien été envoyé. Notre équipe vous répondra dans les meilleurs délais.');
